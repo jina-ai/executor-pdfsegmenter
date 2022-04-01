@@ -84,3 +84,15 @@ def test_io_img(executor_from_config, test_dir, doc_generator_img):
                     assert tensor.shape == (660, 1024, 3)
                 if idx == 1:
                     assert tensor.shape == (626, 1191, 3)
+
+
+def test_order_blob_uri(executor_from_config):
+    pdf = 'tests/data/cats_are_awesome.pdf'
+    doc = Document(uri=pdf)
+    doc.load_uri_to_blob()
+    docs = DocumentArray(doc)
+
+    # this is why the order is important in `_parse_pdf` method in segmenter
+    executor_from_config.craft(docs)
+
+    assert len(docs[0].chunks) > 0
