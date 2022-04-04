@@ -54,12 +54,14 @@ class PDFSegmenter(Executor):
         pdf_img = None
         pdf_text = None
         try:
-            if doc.uri:
-                pdf_img = fitz.open(doc.uri)
-                pdf_text = pdfplumber.open(doc.uri)
+            # when loading from URI, we should prioritize blob
+            # order is important. check test `tests/unit/test_exec.py::test_order_blob_uri`
             if doc.blob:
                 pdf_img = fitz.open(stream=doc.blob, filetype='pdf')
                 pdf_text = pdfplumber.open(io.BytesIO(doc.blob))
+            elif doc.uri:
+                pdf_img = fitz.open(doc.uri)
+                pdf_text = pdfplumber.open(doc.uri)
         except Exception as ex:
             self.logger.error(f'Failed to open due to: {ex}')
         return pdf_img, pdf_text
