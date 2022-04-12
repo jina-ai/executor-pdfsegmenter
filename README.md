@@ -4,13 +4,13 @@ PDFSegmenter is an Executor used for extracting images and text as chunks from P
 
 ## Loading data
 
-The `PDFSegmenter` expects data to be found in the `Document`'s `.tensor` attribute. This can be loaded from a PDF file like so
+The `PDFSegmenter` expects data to be found in the `Document`'s `.blob` attribute. This can be loaded from a PDF file like so
 
 ```python
 from docarray import DocumentArray, Document
 from jina import Flow
 
-doc = DocumentArray([Document(uri='/home/cristian/Downloads/cats_are_awesome.pdf')])
+doc = DocumentArray([Document(uri='cats_are_awesome.pdf')]) # adjust to your own pdf
 doc[0].load_uri_to_blob()
 print(doc[0])
 
