@@ -24,5 +24,6 @@ with f:
 
 
 ```
->> ['image/*', 'image/*', 'text/plain']
+>> <Document ('id', 'blob', 'mime_type', 'uri') at 9d77e00f759bf8523e86abf452ac28a0> # notice `.blob` field is set
+>> ['image/*', 'image/*', 'text/plain'] # we get both images and text from a PDF
 ```
