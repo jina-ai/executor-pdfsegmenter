@@ -96,3 +96,17 @@ def test_order_blob_uri(executor_from_config):
     executor_from_config.craft(docs)
 
     assert len(docs[0].chunks) > 0
+
+
+@pytest.mark.parametrize('trim_text', [False, True])
+def test_only_picture(trim_text):
+    executor = PDFSegmenter(trim_text=trim_text)
+    pdf = 'tests/data/only_picture.pdf'
+    doc = Document(uri=pdf)
+    doc.load_uri_to_blob()
+    docs = DocumentArray([doc])
+    executor.craft(docs)
+    if trim_text:
+        assert len(docs[0].chunks) == 1
+    else:
+        assert len(docs[0].chunks) == 2
