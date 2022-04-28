@@ -73,7 +73,7 @@ def test_io_img(executor_from_config, test_dir, doc_generator_img):
     for docs in doc_arrays:
         executor_from_config.craft(docs)
         chunks = docs[0].chunks
-        assert len(chunks) == 3
+        assert len(chunks) == 2
         # Check images
         for idx, c in enumerate(chunks[:2]):
             with Image.open(os.path.join(test_dir, f'data/test_img_{idx}.jpg')) as img:
