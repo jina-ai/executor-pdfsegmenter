@@ -80,7 +80,7 @@ class PDFSegmenter(Executor):
         with pdf_img:
             images = []
             for page in range(len(pdf_img)):
-                for img in pdf_img.getPageImageList(page):
+                for img in pdf_img.get_page_images(page):
                     xref = img[0]
                     pix = fitz.Pixmap(pdf_img, xref)
                     # read data from buffer and reshape the array into 3-d format
