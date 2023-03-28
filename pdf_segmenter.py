@@ -14,6 +14,7 @@ from jina.logging.logger import JinaLogger
 class PDFSegmenter(Executor):
     def __init__(
         self,
+        trim_text: bool = True,
         *args,
         **kwargs,
     ):
@@ -24,6 +25,7 @@ class PDFSegmenter(Executor):
         """
         super().__init__(*args, **kwargs)
         self.logger = JinaLogger(context=self.__class__.__name__)
+        self.trim_text = trim_text
 
     @requests
     def craft(self, docs: DocumentArray, **kwargs):
@@ -73,7 +75,11 @@ class PDFSegmenter(Executor):
             count = len(pdf_text.pages)
             for i in range(count):
                 page = pdf_text.pages[i]
-                texts.append(page.extract_text(x_tolerance=1, y_tolerance=1))
+                extracted_text = page.extract_text(x_tolerance=1, y_tolerance=1)
+                if not self.trim_text:
+                    texts.append(extracted_text)
+                elif extracted_text is not None and extracted_text.strip():
+                    texts.append(extracted_text)
             return texts
 
     def _extract_image(self, pdf_img) -> List['np.ndarray']:

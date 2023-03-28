@@ -73,7 +73,7 @@ def test_io_img(executor_from_config, test_dir, doc_generator_img):
     for docs in doc_arrays:
         executor_from_config.craft(docs)
         chunks = docs[0].chunks
-        assert len(chunks) == 3
+        assert len(chunks) == 2
         # Check images
         for idx, c in enumerate(chunks[:2]):
             with Image.open(os.path.join(test_dir, f'data/test_img_{idx}.jpg')) as img:
@@ -96,3 +96,17 @@ def test_order_blob_uri(executor_from_config):
     executor_from_config.craft(docs)
 
     assert len(docs[0].chunks) > 0
+
+
+@pytest.mark.parametrize('trim_text', [False, True])
+def test_only_picture(trim_text):
+    executor = PDFSegmenter(trim_text=trim_text)
+    pdf = 'tests/data/only_picture.pdf'
+    doc = Document(uri=pdf)
+    doc.load_uri_to_blob()
+    docs = DocumentArray([doc])
+    executor.craft(docs)
+    if trim_text:
+        assert len(docs[0].chunks) == 1
+    else:
+        assert len(docs[0].chunks) == 2
