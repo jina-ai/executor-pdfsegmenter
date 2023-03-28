@@ -1,2 +1,2 @@
-pdfplumber==0.5.27
-PyMuPDF==1.18.5
+PyMuPDF==1.21.1
+pdfplumber==0.8.0
