@@ -1,4 +1,4 @@
-__copyright__ = "Copyright (c) 2020-2021 Jina AI Limited. All rights reserved."
+__copyright__ = "Copyright (c) 2020-2023 Jina AI Limited. All rights reserved."
 __license__ = "Apache-2.0"
 
 import io
@@ -80,7 +80,7 @@ class PDFSegmenter(Executor):
         with pdf_img:
             images = []
             for page in range(len(pdf_img)):
-                for img in pdf_img.getPageImageList(page):
+                for img in pdf_img.get_page_images(page):
                     xref = img[0]
                     pix = fitz.Pixmap(pdf_img, xref)
                     # read data from buffer and reshape the array into 3-d format
